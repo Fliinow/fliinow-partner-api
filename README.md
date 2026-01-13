@@ -170,8 +170,8 @@ const fliinow = new FliinowClient({
 
 | Environment | Base URL |
 |-------------|----------|
-| Sandbox | `https://sandbox.api.fliinow.com/v1` |
-| Production | `https://api.fliinow.com/v1` |
+| Demo | `https://demo.fliinow.com/integration-api/v1` |
+| Production | `https://app.fliinow.com/integration-api/v1` |
 
 ## Documentation
 
