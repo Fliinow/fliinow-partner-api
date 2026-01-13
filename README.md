@@ -1,24 +1,24 @@
-# @fliinow/fliinow-partner-api
+# @fliinow-com/fliinow-partner-api
 
 Official TypeScript/JavaScript SDK for the Fliinow Partner API. Easily integrate financing options into your e-commerce platform.
 
-[![npm version](https://badge.fury.io/js/%40fliinow%2Ffliinow-partner-api.svg)](https://www.npmjs.com/package/@fliinow/fliinow-partner-api)
+[![npm version](https://badge.fury.io/js/%40fliinow-com%2Ffliinow-partner-api.svg)](https://www.npmjs.com/package/@fliinow-com/fliinow-partner-api)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Installation
 
 ```bash
-npm install @fliinow/fliinow-partner-api
+npm install @fliinow-com/fliinow-partner-api
 # or
-yarn add @fliinow/fliinow-partner-api
+yarn add @fliinow-com/fliinow-partner-api
 # or
-pnpm add @fliinow/fliinow-partner-api
+pnpm add @fliinow-com/fliinow-partner-api
 ```
 
 ## Quick Start
 
 ```typescript
-import { FliinowClient } from '@fliinow/fliinow-partner-api';
+import { FliinowClient } from '@fliinow-com/fliinow-partner-api';
 
 const fliinow = new FliinowClient({
   apiKey: 'your_api_key',
@@ -46,11 +46,11 @@ window.location.href = operation.financingUrl;
 
 ## Features
 
-- ðŸ” **Secure Authentication** - API key-based authentication with environment separation
-- ðŸ“¦ **Full TypeScript Support** - Complete type definitions included
-- ðŸ”„ **Promise-based API** - Modern async/await interface
-- ðŸ›¡ï¸ **Error Handling** - Structured error types for easy debugging
-- ðŸŒ **Multi-environment** - Sandbox and production support
+- 🔐 **Secure Authentication** - API key-based authentication with environment separation
+- 📦 **Full TypeScript Support** - Complete type definitions included
+- 🔄 **Promise-based API** - Modern async/await interface
+- 🛡️ **Error Handling** - Structured error types for easy debugging
+- 🌍 **Multi-environment** - Sandbox and production support
 
 ## API Reference
 
@@ -96,7 +96,7 @@ const plans = await fliinow.plans.getAvailable({
 
 // Display plans to user
 plans.forEach(plan => {
-  console.log(`${plan.provider}: ${plan.installments}x ${plan.monthlyPayment}â‚¬/month`);
+  console.log(`${plan.provider}: ${plan.installments}x ${plan.monthlyPayment}€/month`);
 });
 ```
 
@@ -115,7 +115,7 @@ window.location.href = result.checkoutUrl;
 ## Error Handling
 
 ```typescript
-import { FliinowClient, FliinowError } from '@fliinow/fliinow-partner-api';
+import { FliinowClient, FliinowError } from '@fliinow-com/fliinow-partner-api';
 
 try {
   const operation = await fliinow.operations.create({ ... });
@@ -151,7 +151,7 @@ import type {
   CreateOperationParams,
   ListOperationsParams,
   PaginatedResponse,
-} from '@fliinow/fliinow-partner-api';
+} from '@fliinow-com/fliinow-partner-api';
 ```
 
 ## Configuration Options
@@ -175,16 +175,16 @@ const fliinow = new FliinowClient({
 
 ## Documentation
 
-- ðŸ“– [Full API Documentation](https://docs.fliinow.com)
-- ðŸ”§ [API Reference](https://docs.fliinow.com/api-reference)
-- ðŸš€ [Integration Guide](https://docs.fliinow.com/flow)
+- 📖 [Full API Documentation](https://docs.fliinow.com)
+- 🔧 [API Reference](https://docs.fliinow.com/api-reference)
+- 🚀 [Integration Guide](https://docs.fliinow.com/flow)
 
 ## Support
 
-- ðŸ“§ Email: partners@fliinow.com
-- ðŸ’¬ Slack: [Fliinow Partners Community](https://fliinow-partners.slack.com)
-- ðŸ› Issues: [GitHub Issues](https://github.com/fliinow/fliinow-partner-api/issues)
+- 📧 Email: partners@fliinow.com
+- 💬 Slack: [Fliinow Partners Community](https://fliinow-partners.slack.com)
+- 🐛 Issues: [GitHub Issues](https://github.com/fliinow/fliinow-partner-api/issues)
 
 ## License
 
-MIT Â© [Fliinow](https://fliinow.com)
+MIT © [Fliinow](https://fliinow.com)
