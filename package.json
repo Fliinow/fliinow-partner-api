@@ -1,0 +1,67 @@
+{
+  "name": "@fliinow-com/fliinow-partner-api",
+  "version": "1.0.1",
+  "description": "Official TypeScript/JavaScript SDK for the Fliinow Partner API. Easily integrate financing options into your travel platform.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "lint": "tsc --noEmit",
+    "test": "echo \"Tests pending\" && exit 0"
+  },
+  "keywords": [
+    "fliinow",
+    "financing",
+    "travel",
+    "payment",
+    "bnpl",
+    "buy-now-pay-later",
+    "travel-financing",
+    "ota",
+    "travel-agency",
+    "typescript",
+    "sdk",
+    "api-client"
+  ],
+  "author": "Fliinow <partners@fliinow.com>",
+  "license": "MIT",
+  "homepage": "https://api.docs.fliinow.com/sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fliinow/fliinow-partner-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fliinow/fliinow-partner-api/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "tsup": "^8.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
+}
