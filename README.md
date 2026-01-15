@@ -1,6 +1,6 @@
 # @fliinow-com/fliinow-partner-api
 
-Official TypeScript/JavaScript SDK for the Fliinow Partner API. Easily integrate financing options into your e-commerce platform.
+Official TypeScript/JavaScript SDK for the Fliinow Partner API. Easily integrate travel financing options into your platform.
 
 [![npm version](https://badge.fury.io/js/%40fliinow-com%2Ffliinow-partner-api.svg)](https://www.npmjs.com/package/@fliinow-com/fliinow-partner-api)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,23 +21,36 @@ pnpm add @fliinow-com/fliinow-partner-api
 import { FliinowClient } from '@fliinow-com/fliinow-partner-api';
 
 const fliinow = new FliinowClient({
-  apiKey: 'your_api_key',
-  environment: 'sandbox' // or 'production'
+  apiKey: 'fk_test_your_api_key',  // fk_test_* for sandbox, fk_live_* for production
+  sandbox: true,                    // true for sandbox, false for production
 });
 
 // Create a financing operation
 const operation = await fliinow.operations.create({
-  amount: 1500.00,
-  currency: 'EUR',
-  reference: 'ORDER-12345',
-  customer: {
-    email: 'customer@example.com',
-    phone: '+34600000000'
+  externalId: 'BOOK-2026-00123',
+  client: {
+    firstName: 'Juan',
+    lastName: 'García López',
+    email: 'juan@email.com',
+    prefix: '+34',
+    phone: '612345678',
+    documentId: '12345678A',
+    documentValidityDate: '31-12-2030',
+    gender: 'MALE',
+    birthDate: '15-03-1985',
+    nationality: 'ESP',
+    address: 'Calle Mayor 1',
+    city: 'Madrid',
+    postalCode: '28001',
+    countryCode: 'ES',
   },
-  redirectUrls: {
-    success: 'https://yoursite.com/success',
-    cancel: 'https://yoursite.com/cancel'
-  }
+  packageName: 'Viaje romántico a París',
+  packageTravel: true,
+  travelersNumber: 2,
+  flightDtoList: [],
+  hotelDtoList: [],
+  totalPrice: 1500.00,
+  totalReserve: 1500.00,
 });
 
 // Redirect user to financing checkout
@@ -46,7 +59,7 @@ window.location.href = operation.financingUrl;
 
 ## Features
 
-- 🔐 **Secure Authentication** - API key-based authentication with environment separation
+- 🔐 **Secure Authentication** - API key-based with sandbox/production separation
 - 📦 **Full TypeScript Support** - Complete type definitions included
 - 🔄 **Promise-based API** - Modern async/await interface
 - 🛡️ **Error Handling** - Structured error types for easy debugging
@@ -59,57 +72,61 @@ window.location.href = operation.financingUrl;
 ```typescript
 // Create an operation
 const operation = await fliinow.operations.create({
-  amount: 1500.00,
-  currency: 'EUR',
-  reference: 'ORDER-12345',
-  customer: { email: 'customer@example.com' },
-  redirectUrls: {
-    success: 'https://yoursite.com/success',
-    cancel: 'https://yoursite.com/cancel'
-  }
+  externalId: 'ORDER-12345',
+  client: { /* ClientDto */ },
+  packageName: 'Trip to Paris',
+  packageTravel: true,
+  travelersNumber: 2,
+  totalPrice: 1500.00,
+  totalReserve: 1500.00,
 });
 
+// Get operation by ID
+const operation = await fliinow.operations.get('abc123xyz');
+
 // Get operation status
-const status = await fliinow.operations.getStatus('op_abc123');
+const status = await fliinow.operations.getStatus('abc123xyz');
+// status.status: 'GENERATED' | 'PENDING' | 'FAVORABLE' | 'CONFIRMED' | 'REFUSED' | ...
 
 // List operations with filters
-const operations = await fliinow.operations.list({
-  status: 'approved',
-  from: '2024-01-01',
-  to: '2024-12-31',
-  page: 1,
-  limit: 20
+const { content, totalElements } = await fliinow.operations.list({
+  status: 'FAVORABLE',
+  fromDate: '2026-01-01',
+  page: 0,
+  size: 20,
 });
 
 // Cancel an operation
-await fliinow.operations.cancel('op_abc123');
+await fliinow.operations.cancel('abc123xyz');
 ```
 
 ### Plans (Advanced Flow)
 
 ```typescript
 // Get available financing plans
-const plans = await fliinow.plans.getAvailable({
-  amount: 1500.00,
-  currency: 'EUR'
-});
+const plans = await fliinow.operations.getPlans('abc123xyz');
 
 // Display plans to user
-plans.forEach(plan => {
-  console.log(`${plan.provider}: ${plan.installments}x ${plan.monthlyPayment}€/month`);
-});
+for (const plan of plans) {
+  console.log(`${plan.installments} installments: ${plan.commonQuota.amount}€/month`);
+  console.log(`  APR: ${plan.apr}%`);
+  console.log(`  Provider: ${plan.financingProvider.name}`);
+}
 ```
 
 ### Financing (Advanced Flow)
 
 ```typescript
-// Request financing with specific plan
-const result = await fliinow.financing.request({
-  operationId: 'op_abc123',
-  planId: 'plan_xyz789'
+// Start financing with selected plan
+const result = await fliinow.operations.startFinancing('abc123xyz', {
+  financialProviderId: 1,  // From plan.financingProvider.id
+  installments: 6,
+  successCallbackUrl: 'https://yoursite.com/success',
+  errorCallbackUrl: 'https://yoursite.com/error',
 });
 
-window.location.href = result.checkoutUrl;
+// Redirect to provider checkout
+window.location.href = result.checkout.redirectUrl;
 ```
 
 ## Error Handling
@@ -128,10 +145,10 @@ try {
         // Handle validation error
         break;
       case 'RATE_LIMIT_EXCEEDED':
-        // Handle rate limiting
+        // Handle rate limiting - use error.retryAfter
         break;
-      case 'AUTHENTICATION_FAILED':
-        // Handle auth error
+      case 'UNAUTHORIZED':
+        // Check API key
         break;
     }
   }
@@ -144,13 +161,16 @@ All types are exported for your convenience:
 
 ```typescript
 import type {
-  Operation,
+  OperationResponse,
   OperationStatus,
-  Plan,
-  Customer,
-  CreateOperationParams,
+  PlanResponse,
+  ClientDto,
+  FlightDto,
+  HotelDto,
+  CreateOperationRequest,
   ListOperationsParams,
-  PaginatedResponse,
+  PagedOperationsResponse,
+  FinancingProviderInfo,
 } from '@fliinow-com/fliinow-partner-api';
 ```
 
@@ -158,31 +178,30 @@ import type {
 
 ```typescript
 const fliinow = new FliinowClient({
-  apiKey: 'your_api_key',
-  environment: 'sandbox',        // 'sandbox' | 'production'
-  timeout: 30000,                // Request timeout in ms (default: 30000)
-  retries: 3,                    // Number of retries (default: 3)
-  baseUrl: 'https://custom.url'  // Custom base URL (optional)
+  apiKey: 'fk_test_xxxxx',  // Required: Your API key
+  sandbox: true,             // Optional: Use sandbox environment (default: false)
+  timeout: 30000,            // Optional: Request timeout in ms (default: 30000)
+  baseUrl: 'https://...',    // Optional: Custom base URL (overrides sandbox)
 });
 ```
 
 ## Environments
 
-| Environment | Base URL |
-|-------------|----------|
-| Demo | `https://demo.fliinow.com/integration-api/v1` |
-| Production | `https://app.fliinow.com/integration-api/v1` |
+| Environment | Base URL | API Key Prefix |
+|-------------|----------|----------------|
+| Sandbox | `https://demo.fliinow.com/integration-api/v1` | `fk_test_*` |
+| Production | `https://app.fliinow.com/integration-api/v1` | `fk_live_*` |
 
 ## Documentation
 
-- 📖 [Full API Documentation](https://docs.fliinow.com)
-- 🔧 [API Reference](https://docs.fliinow.com/api-reference)
-- 🚀 [Integration Guide](https://docs.fliinow.com/flow)
+- 📖 [Full Documentation](https://api.docs.fliinow.com)
+- 🔧 [API Reference](https://api.docs.fliinow.com/api-reference)
+- 🚀 [Integration Guide](https://api.docs.fliinow.com/flow)
+- 🎮 [SDK Guide](https://api.docs.fliinow.com/sdk)
 
 ## Support
 
 - 📧 Email: partners@fliinow.com
-- 💬 Slack: [Fliinow Partners Community](https://fliinow-partners.slack.com)
 - 🐛 Issues: [GitHub Issues](https://github.com/fliinow/fliinow-partner-api/issues)
 
 ## License
