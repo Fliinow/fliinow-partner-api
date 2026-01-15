@@ -335,12 +335,10 @@ export interface PagedOperationsResponse {
 export interface ListOperationsParams {
   /** Filter by status */
   status?: OperationStatus;
-  /** Filter by date from (YYYY-MM-DD) */
-  fromDate?: string;
-  /** Filter by date to (YYYY-MM-DD) */
-  toDate?: string;
-  /** Filter by external ID */
-  externalId?: string;
+  /** Filter by start date (YYYY-MM-DD) */
+  from?: string;
+  /** Filter by end date (YYYY-MM-DD) */
+  to?: string;
   /** Page number (0-based) */
   page?: number;
   /** Page size (default 50) */

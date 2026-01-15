@@ -178,7 +178,7 @@ class OperationsApi {
    * ```typescript
    * const { content, totalElements } = await client.operations.list({
    *   status: 'FAVORABLE',
-   *   fromDate: '2026-01-01',
+   *   from: '2026-01-01',
    *   page: 0,
    *   size: 20,
    * });

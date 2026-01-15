@@ -91,7 +91,7 @@ const status = await fliinow.operations.getStatus('abc123xyz');
 // List operations with filters
 const { content, totalElements } = await fliinow.operations.list({
   status: 'FAVORABLE',
-  fromDate: '2026-01-01',
+  from: '2026-01-01',
   page: 0,
   size: 20,
 });
