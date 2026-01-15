@@ -1,6 +1,6 @@
 {
   "name": "@fliinow-com/fliinow-partner-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Official TypeScript/JavaScript SDK for the Fliinow Partner API. Easily integrate financing options into your travel platform.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

@@ -56,7 +56,6 @@ export interface Money {
 export interface FinancingProviderInfo {
   id: number;
   name: string;
-  code: string;
 }
 
 // ============================================================================
