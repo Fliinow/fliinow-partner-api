@@ -49,8 +49,28 @@ const operation = await fliinow.operations.create({
   travelersNumber: 2,
   flightDtoList: [],
   hotelDtoList: [],
-  totalPrice: 1500.00,
-  totalReserve: 1500.00,
+  serviceDtoList: [
+    {
+      type: 'CRUISE',
+      description: 'Mediterranean Cruise - 7 nights',
+      startDate: '2026-06-15',
+      endDate: '2026-06-22',
+      isRefundable: true,
+      price: 1200.00,
+    },
+    {
+      type: 'TRANSFER',
+      description: 'Airport transfer round-trip',
+      startDate: '2026-06-15',
+      endDate: '2026-06-22',
+      isRefundable: false,
+      price: 80.00,
+    },
+  ],
+  totalPrice: 1280.00,
+  // Optional: Callback URLs for redirect after financing
+  successCallbackUrl: 'https://yoursite.com/booking/success',
+  errorCallbackUrl: 'https://yoursite.com/booking/error',
 });
 
 // Redirect user to financing checkout
@@ -178,6 +198,8 @@ import type {
   PagedOperationsResponse,
   FinancingProviderInfo,
   HealthResponse,
+  ServiceDto,
+  ServiceType,
 } from '@fliinow-com/fliinow-partner-api';
 ```
 

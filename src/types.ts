@@ -36,6 +36,12 @@ export type FlightType = 'ONE_WAY' | 'ROUND_TRIP';
  */
 export type Gender = 'MALE' | 'FEMALE';
 
+/**
+ * Service type options.
+ * Maps to: com.fliinow.dto.enums.ServiceTypeDto
+ */
+export type ServiceType = 'ACTIVITY' | 'CRUISE' | 'INSURANCE' | 'TRANSFER';
+
 // ============================================================================
 // COMMON TYPES
 // ============================================================================
@@ -201,16 +207,22 @@ export interface HotelDto {
 // ============================================================================
 
 /**
- * Additional service (transfers, insurance, etc).
+ * Additional service (transfers, insurance, cruises, etc).
  * Maps to: com.fliinow.dto.ServiceDto
  */
 export interface ServiceDto {
-  /** Service name/description */
-  serviceName: string;
+  /** Service type */
+  type: ServiceType;
+  /** Service description */
+  description: string;
+  /** Start date (YYYY-MM-DD) */
+  startDate: string;
+  /** End date (YYYY-MM-DD) */
+  endDate: string;
+  /** Whether the service is refundable */
+  isRefundable: boolean;
   /** Service price */
   price: number;
-  /** Service date (dd-MM-yyyy) */
-  serviceDate?: string;
 }
 
 // ============================================================================
@@ -258,7 +270,11 @@ export interface CreateOperationRequest {
   /** Base price without fees */
   totalPrice: number;
   /** Total price including fees */
-  totalReserve: number;
+  totalReserve?: number;
+  /** URL to redirect after successful financing (optional) */
+  successCallbackUrl?: string;
+  /** URL to redirect after failed/cancelled financing (optional) */
+  errorCallbackUrl?: string;
 }
 
 /**
