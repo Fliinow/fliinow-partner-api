@@ -39,6 +39,7 @@ import type {
   FinancingResponse,
   CancelOperationRequest,
   ErrorResponse,
+  HealthResponse,
 } from './types';
 
 // Re-export all types
@@ -257,6 +258,20 @@ class OperationsApi {
   }
 
   /**
+   * Get an operation by external ID (your reference).
+   * 
+   * @example
+   * ```typescript
+   * const operation = await client.operations.getByExternalId('BOOKING-12345');
+   * console.log(operation.id); // Fliinow ID
+   * console.log(operation.status);
+   * ```
+   */
+  async getByExternalId(externalId: string): Promise<OperationResponse> {
+    return this.client.request<OperationResponse>('GET', `/operations/by-external-id/${externalId}`);
+  }
+
+  /**
    * Cancel an operation.
    * Only operations in GENERATED or PENDING status can be cancelled.
    * 
@@ -330,6 +345,22 @@ export class FliinowClient {
 
     // Initialize API modules
     this.operations = new OperationsApi(this);
+  }
+
+  /**
+   * Check API health and connectivity.
+   * Useful for monitoring and verifying your API key.
+   * 
+   * @example
+   * ```typescript
+   * const health = await client.health();
+   * console.log(health.status);       // "ok"
+   * console.log(health.version);      // "1.2.0"
+   * console.log(health.partnerCode);  // Your partner code
+   * ```
+   */
+  async health(): Promise<HealthResponse> {
+    return this.request<HealthResponse>('GET', '/health');
   }
 
   /**

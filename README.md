@@ -81,6 +81,12 @@ const operation = await fliinow.operations.create({
   totalReserve: 1500.00,
 });
 
+// Check API health
+const health = await fliinow.health();
+
+// Get operation by external ID (your reference)
+const operation = await fliinow.operations.getByExternalId('BOOKING-12345');
+
 // Get operation by ID
 const operation = await fliinow.operations.get('abc123xyz');
 
@@ -171,6 +177,7 @@ import type {
   ListOperationsParams,
   PagedOperationsResponse,
   FinancingProviderInfo,
+  HealthResponse,
 } from '@fliinow-com/fliinow-partner-api';
 ```
 

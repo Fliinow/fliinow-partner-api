@@ -464,3 +464,22 @@ export interface ErrorResponse {
   /** Request ID for support */
   requestId?: string;
 }
+
+// ============================================================================
+// HEALTH CHECK
+// ============================================================================
+
+/**
+ * Health check response.
+ * Maps to: com.fliinow.dto.partner.PartnerApiHealthResponse
+ */
+export interface HealthResponse {
+  /** API status: "ok" or "degraded" */
+  status: 'ok' | 'degraded';
+  /** Current API version */
+  version: string;
+  /** Server timestamp (ISO 8601) */
+  timestamp: string;
+  /** Partner code (confirms authentication) */
+  partnerCode: string;
+}
