@@ -188,7 +188,7 @@ export interface HotelDto {
   postalCode: string;
   /** City name */
   city: string;
-  /** Country name */
+  /** Country code (ISO 3166-1 alpha-2 or alpha-3, e.g., "FR" or "FRA") */
   country: string;
   /** Number of guests */
   guestsNumber: number;
@@ -420,7 +420,7 @@ export interface PlanResponse {
  * Maps to: com.fliinow.dto.partner.PartnerStartFinancingRequest
  */
 export interface StartFinancingRequest {
-  /** Financial provider ID (1=Oney, 2=Pepper, 3=Cofidis) */
+  /** Financial provider ID (2=Oney, 3=Pepper, 4=Cofidis) */
   financialProviderId: number;
   /** Number of installments */
   installments: number;

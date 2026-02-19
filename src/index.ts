@@ -236,7 +236,7 @@ class OperationsApi {
    * @example
    * ```typescript
    * const result = await client.operations.startFinancing('abc123', {
-   *   financialProviderId: 1,  // 1=Oney, 2=Pepper, 3=Cofidis
+   *   financialProviderId: 2,  // 2=Oney, 3=Pepper, 4=Cofidis
    *   installments: 6,
    *   successCallbackUrl: 'https://yoursite.com/success',
    *   errorCallbackUrl: 'https://yoursite.com/error',
